@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+// In App.js in a new project
+import React, { useState, useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-export default function App() {
+// import bottom navigate
+import BottomNavigation from "./src/Material/BottomNavigation";
+import SplashScreen from "./src/Screens/SplashScreen";
+
+// use state
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  const [showScreen, setShowScreen] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowScreen(false);
+    }, 5000);
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {showScreen ? (
+          <Stack.Screen
+            name="SplashScreen"
+            component={SplashScreen}
+            options={{ headerShown: false }}
+          />
+        ) : null}
+        <Stack.Screen name="Header" component={BottomNavigation} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
